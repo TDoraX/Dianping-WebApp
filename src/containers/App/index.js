@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import ErrorToast from '../../components/ErrorToast'
-import './style.css';
 import {actions as appActions, getError} from '../../redux/modules/app';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Home from '../Home'
-
 
 class App extends Component {
     render() {
