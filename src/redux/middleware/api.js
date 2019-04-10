@@ -1,3 +1,6 @@
+/**
+ * 中间件API的编写
+ */
 import {get} from '../../utils/request';
 
 // 经过中间件处理的action所具有的标识
