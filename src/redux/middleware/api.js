@@ -1,10 +1,10 @@
 import {get} from '../../utils/request';
-import {schema} from "../modules/entities/products";
+
 // 经过中间件处理的action所具有的标识
 export const FETCH_DATA = 'FETCH DATA';
 
 export default store => next => action => {
-    const cappAPI = action[FETCH_DATA];
+    const callAPI = action[FETCH_DATA];
     if (typeof callAPI === 'undefined') {
         return next(action);
     }
@@ -24,7 +24,7 @@ export default store => next => action => {
     }
 
     const actionWith = data => {
-        const finalAction = {...action, ...data}
+        const finalAction = {...action, ...data};
         delete finalAction[FETCH_DATA];
         return finalAction;
     };
