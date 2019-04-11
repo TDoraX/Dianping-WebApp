@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-
 import url from '../../utils/url';
 import {FETCH_DATA} from "../middleware/api";
 import {schema} from './entities/products';
@@ -13,12 +12,18 @@ export const params = {
 };
 
 export const types = {
-    FETCH_LIKES_REQUEST: 'HOME/FETCH_LIKES_REQUEST', // 获取“猜你喜欢”请求
-    FETCH_LIKES_SUCCESS: 'HOME/FETCH_LIKES_SUCCESS', // 获取“猜你喜欢”请求成功
-    FETCH_LIKES_FAILURE: 'HOME/FETCH_LIKES_FAILURE', // 获取“猜你喜欢”请求失败
-    FETCH_DISCOUNT_REQUEST: 'HOME/FETCH_DISCOUNT_REQUEST', // 获取“特惠信息”请求
-    FETCH_DISCOUNT_SUCCESS: 'HOME/FETCH_DISCOUNT_SUCCESS', // 获取“特惠信息”请求成功
-    FETCH_DISCOUNT_FAILURE: 'HOME/FETCH_DISCOUNT_FAILURE', // 获取“特惠信息”请求失败
+    // 获取“猜你喜欢”请求
+    FETCH_LIKES_REQUEST: 'HOME/FETCH_LIKES_REQUEST',
+    // 获取“猜你喜欢”请求成功
+    FETCH_LIKES_SUCCESS: 'HOME/FETCH_LIKES_SUCCESS',
+    // 获取“猜你喜欢”请求失败
+    FETCH_LIKES_FAILURE: 'HOME/FETCH_LIKES_FAILURE',
+    // 获取“特惠信息”请求
+    FETCH_DISCOUNTS_REQUEST: 'HOME/FETCH_DISCOUNTS_REQUEST',
+    // 获取“特惠信息”请求成功
+    FETCH_DISCOUNTS_SUCCESS: 'HOME/FETCH_DISCOUNTS_SUCCESS',
+    // 获取“特惠信息”请求失败
+    FETCH_DISCOUNTS_FAILURE: 'HOME/FETCH_DISCOUNTS_FAILURE',
 };
 
 const initialState = {
@@ -47,13 +52,13 @@ export const actions = {
     // 加载“特惠信息”的数据
     loadDiscounts: () => {
         return (dispatch, getState) => {
-            const endpoint = url.getProductList(params.PAGE_SIZE_DISCOUNTS, 0, params.PAGE_SIZE_DISCOUNTS);
+            const endpoint = url.getProductList(params.PATH_DISCOUNTS, 0, params.PAGE_SIZE_DISCOUNTS);
             return dispatch(fetchDiscounts(endpoint));
-        }
+        };
     }
 };
 
-const fetchLikes = (endpoint) => ({
+const fetchLikes = endpoint => ({
     [FETCH_DATA]: {
         types: [
             types.FETCH_LIKES_REQUEST,
@@ -65,12 +70,12 @@ const fetchLikes = (endpoint) => ({
     }
 });
 
-const fetchDiscounts = (endpoint) => ({
+const fetchDiscounts = endpoint => ({
     [FETCH_DATA]: {
         types: [
-            types.FETCH_DISCOUNT_REQUEST,
-            types.FETCH_DISCOUNT_SUCCESS,
-            types.FETCH_DISCOUNT_FAILURE
+            types.FETCH_DISCOUNTS_REQUEST,
+            types.FETCH_DISCOUNTS_SUCCESS,
+            types.FETCH_DISCOUNTS_FAILURE
         ],
         endpoint,
         schema
@@ -87,7 +92,7 @@ const likes = (state = initialState.likes, action) => {
                 ...state,
                 isFetching: false,
                 pageCount: state.pageCount + 1,
-                ids: state.ids.concat(action.response.id)
+                ids: state.ids.concat(action.response.ids)
             };
         case types.FETCH_LIKES_FAILURE:
             return {...state, isFetching: false};
@@ -99,15 +104,15 @@ const likes = (state = initialState.likes, action) => {
 // 特惠信息 - Reducer
 const discounts = (state = initialState.discounts, action) => {
     switch (action.type) {
-        case types.FETCH_DISCOUNT_REQUEST:
+        case types.FETCH_DISCOUNTS_REQUEST:
             return {...state, isFetching: true};
-        case types.FETCH_DISCOUNT_SUCCESS:
+        case types.FETCH_DISCOUNTS_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
-                ids: state.ids.concat(action.response.id)
+                ids: state.ids.concat(action.response.ids)
             };
-        case types.FETCH_DISCOUNT_FAILURE:
+        case types.FETCH_DISCOUNTS_FAILURE:
             return {...state, isFetching: false};
         default:
             return state;
@@ -120,3 +125,24 @@ const reducer = combineReducers({
 });
 
 export default reducer;
+
+// Selectors
+// 获取“猜你喜欢”state
+export const getLikes = state => {
+    return state.home.likes.ids.map(id => {
+        return state.entities.products[id];
+    });
+};
+
+// 获取“特惠信息”state
+export const getDiscounts = state => {
+    return state.home.discounts.ids.map(id => {
+        return state.entities.products[id];
+    });
+};
+
+// 获取“猜你喜欢”分页码
+export const getPageCountOfLikes = state => {
+    return state.home.likes.pageCount;
+};
+
