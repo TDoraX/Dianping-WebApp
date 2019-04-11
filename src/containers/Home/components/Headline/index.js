@@ -49,7 +49,7 @@ class Headline extends Component {
                                             {item.title}
                                         </div>
                                         <div className="headline__sliderImgWrapper">
-                                            <img className="headline__sliderImg" src={item.pic}/>
+                                            <img className="headline__sliderImg" src={item.pic} alt="headline"/>
                                         </div>
                                     </a>
                                 )
