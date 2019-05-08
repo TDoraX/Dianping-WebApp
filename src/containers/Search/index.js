@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import SearchBox from './components/SearchBox';
-import PopularSearch from './components/PopularSearch';
-import SearchHistory from './components/SearchHistory';
+import React, {Component} from "react";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import SearchBox from "./components/SearchBox";
+import PopularSearch from "./components/PopularSearch";
+import SearchHistory from "./components/SearchHistory";
 import {
     actions as searchActions,
     getRelatedKeywords,
     getPopularKeywords,
     getInputText,
     getHistoryKeywords
-} from '../../redux/modules/search';
+} from "../../redux/modules/search";
 
 class Search extends Component {
     render() {
@@ -43,7 +43,7 @@ class Search extends Component {
 
     componentDidMount() {
         const {loadPopularKeywords} = this.props.searchActions;
-        loadPopularKeywords()
+        loadPopularKeywords();
     }
 
     // 搜索框文本发生变化
@@ -67,10 +67,11 @@ class Search extends Component {
 
     // 处理点击关键词的逻辑
     handleClickItem = item => {
-        const {setInputText, addHistoryKeyword} = this.props.searchActions;
+        const {setInputText, addHistoryKeyword, loadRelatedShops} = this.props.searchActions;
         setInputText(item.keyword);
-        addHistoryKeyword(item.id)
-        // 跳转搜索结果页逻辑 todo
+        addHistoryKeyword(item.id);
+        loadRelatedShops(item.id);
+        this.props.history.push("/search_result")
     };
 
     // 清除历史记录
