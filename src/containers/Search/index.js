@@ -1,16 +1,16 @@
-import React, {Component} from "react";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import SearchBox from "./components/SearchBox";
-import PopularSearch from "./components/PopularSearch";
-import SearchHistory from "./components/SearchHistory";
+import React, {Component} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import SearchBox from './components/SearchBox';
+import PopularSearch from './components/PopularSearch';
+import SearchHistory from './components/SearchHistory';
 import {
     actions as searchActions,
     getRelatedKeywords,
     getPopularKeywords,
     getInputText,
     getHistoryKeywords
-} from "../../redux/modules/search";
+} from '../../redux/modules/search';
 
 class Search extends Component {
     render() {
@@ -43,20 +43,20 @@ class Search extends Component {
 
     componentDidMount() {
         const {loadPopularKeywords} = this.props.searchActions;
-        loadPopularKeywords();
+        loadPopularKeywords()
     }
 
     // 搜索框文本发生变化
     handleChangeInput = text => {
         const {setInputText, loadRelatedKeywords} = this.props.searchActions;
         setInputText(text);
-        loadRelatedKeywords(text);
+        loadRelatedKeywords(text)
     };
 
     // 清除搜索框文本
     handleClearInput = () => {
         const {clearInputText} = this.props.searchActions;
-        clearInputText();
+        clearInputText()
     };
 
     // 取消搜索
@@ -83,7 +83,7 @@ class Search extends Component {
     componentWillUnmount() {
         const {clearInputText} = this.props.searchActions;
         clearInputText();
-    }
+    };
 }
 
 const mapStateToProps = (state, props) => {

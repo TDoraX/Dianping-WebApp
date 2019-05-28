@@ -1,8 +1,8 @@
-import url from "../../utils/url";
-import {FETCH_DATA} from "../middleware/api";
-import {schema as keywordSchema, getKeywordById} from "./entities/keywords";
-import {schema as shopSchema, getShopById} from "./entities/shops";
-import {combineReducers} from "redux"
+import url from '../../utils/url';
+import {FETCH_DATA} from '../middleware/api';
+import {schema as keywordSchema, getKeywordById} from './entities/keywords';
+import {schema as shopSchema, getShopById} from './entities/shops';
+import {combineReducers} from 'redux';
 
 export const types = {
     //获取热门关键词
@@ -220,7 +220,7 @@ const inputText = (state = initialState.inputText, action) => {
         case types.SET_INPUT_TEXT:
             return action.text;
         case types.CLEAR_INPUT_TEXT:
-            return "";
+            return '';
         default:
             return state
     }
@@ -250,7 +250,6 @@ const reducer = combineReducers({
 
 export default reducer;
 
-
 // selectors
 export const getPopularKeywords = state => {
     return state.search.popularKeywords.ids.map(id => {
@@ -279,7 +278,7 @@ export const getInputText = state => {
 export const getHistoryKeywords = state => {
     return state.search.historyKeywords.map(id => {
         return getKeywordById(state, id);
-    })
+    });
 };
 
 // 获取店铺列表
@@ -298,7 +297,7 @@ export const getSearchedShops = state => {
 export const getCurrentKeyword = state => {
     const keywordId = state.search.historyKeywords[0];
     if (!keywordId) {
-        return ""
+        return '';
     }
     return getKeywordById(state, keywordId).keyword;
 };
